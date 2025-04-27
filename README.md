@@ -14,6 +14,11 @@
 12. This Keyword
 13. Inheritance
 14. Function Overriding
+15. Properties Overriding
+16. Super Keyword
+17. Super Constructor
+
+
 
 
 

@@ -1,13 +1,22 @@
 package app
 
 import data.Employee
+import data.Manager
+import data.VicePresident
 
 
 fun main(){
 
-    val func = Employee("AI")
+    val func1 = Employee("Employee")
+    func1.sayHello("Audyari")
 
-    func.sayHello("Audyari Manager")
+    val func2 = Manager("Manager")
+    func2.sayHello("Audyari Manager")
 
-    func.sayHello("Audyari Vice President")
+    val func3 = VicePresident("Vice President")
+    func3.sayHello("Audyari Vice President")
+
+    val func4 = VicePresident.superManager("Super Manager")
+    func4.sayHello("Audyari Super Manager")
+    
 }
