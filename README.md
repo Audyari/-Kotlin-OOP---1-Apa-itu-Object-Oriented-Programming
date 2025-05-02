@@ -19,6 +19,13 @@
 17. Super Constructor
 18. Any Class
 19. Type Check & Casts
+20. toString Function
+21. equals Function
+22. HashCode Function
+23. Abstract Class
+24. Abstract Properties & Function
+25. Getter dan Setter
+26. Late Initialized Properties
 
 
 
