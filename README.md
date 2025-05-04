@@ -26,6 +26,7 @@
 24. Abstract Properties & Function
 25. Getter dan Setter
 26. Late Initialized Properties
+27. Interface
 
 
 
@@ -38,126 +39,147 @@
 
 Urutan Umum dalam OOP :
 
-1. Membuat Class:
-
-Kelas adalah cetak biru dari objek. Ini mendefinisikan properti dan metode yang dimiliki objek.
-
-2. Membuat Object:
-
-Objek adalah instansi dari kelas. Anda dapat membuat objek dengan menggunakan kata kunci new (di beberapa bahasa) atau langsung memanggil konstruktor.
-
-3. Membuat Property:
-
-Properti adalah atribut atau data yang dimiliki oleh kelas. Ini bisa berupa variabel yang menyimpan nilai.
-
-4. Memanipulasi Property:
-
-Anda dapat mengubah atau mengakses nilai properti objek menggunakan metode atau langsung.
-
-5. Constructor:
-
-Constructor adalah metode khusus yang dipanggil saat objek dibuat. Ini digunakan untuk menginisialisasi properti objek.
-
-6. Initializer Block:
-
-Blok inisialisasi adalah blok kode yang dijalankan saat objek dibuat, digunakan untuk mengeksekusi kode tambahan saat inisialisasi.
-
-7. Secondary Constructor:
-
-Kelas dapat memiliki lebih dari satu konstruktor, yang memungkinkan pembuatan objek dengan cara yang berbeda.
-
-8. Tanpa Primary Constructor (kurang disarankan):
-
-Meskipun mungkin untuk tidak memiliki konstruktor utama, ini bisa membingungkan dan tidak disarankan dalam banyak kasus.
-
-9. Properties di Constructor:
-
-Anda dapat mendeklarasikan properti langsung di dalam konstruktor untuk inisialisasi yang lebih ringkas.
-
-10. Function:
-
-Fungsi adalah metode yang didefinisikan dalam kelas, yang berisi logika untuk melakukan tindakan tertentu.
-
-11. Overloading Function:
-
-Anda dapat memiliki beberapa fungsi dengan nama yang sama tetapi dengan parameter yang berbeda dalam satu kelas.
-
-12. This Keyword:
-
-Kata kunci this merujuk pada objek saat ini. Ini berguna untuk membedakan antara properti kelas dan parameter metode.
-
-13. Inheritance:
-
-Warisan memungkinkan kelas baru (subkelas) untuk mewarisi properti dan metode dari kelas yang ada (superkelas).
-
-14. Function Overriding:
-
-Subkelas dapat mendefinisikan kembali metode dari superkelas, memungkinkan perilaku yang berbeda untuk objek yang berbeda.
+1. Membuat Class: Mendefinisikan blueprint untuk objek.
+2. Membuat Object: Membuat instance dari class.
+3. Membuat Property: Menyusun atribut untuk menyimpan data dalam objek.
+4. Memanipulasi Property: Mengubah nilai dari property objek.
+5. Constructor: Metode khusus untuk menginisialisasi objek saat dibuat.
+6. Initializer Block: Blok kode yang dijalankan sebelum constructor.
+7. Secondary Constructor: Constructor tambahan untuk inisialisasi dengan cara berbeda.
+8. Tanpa Primary Constructor: Tidak disarankan, tetapi mungkin digunakan dalam situasi tertentu.
+9. Properties di Constructor: Menyediakan nilai untuk properties saat objek dibuat.
+10. Function: Metode yang mendefinisikan perilaku objek.
+11. Overloading Function: Mendefinisikan beberapa metode dengan nama yang sama tetapi parameter berbeda.
+12. This Keyword: Merujuk pada instance saat ini dari objek.
+13. Inheritance: Mekanisme untuk mewarisi properti dan metode dari class lain.
+14. Function Overriding: Menyediakan implementasi baru untuk metode yang diwarisi.
+15. Properties Overriding: Mengganti properti dari class induk di class anak.
+16. Super Keyword: Merujuk pada class induk dalam konteks inheritance.
+17. Super Constructor: Memanggil constructor dari class induk.
+18. Any Class: Kelas yang dapat berisi berbagai tipe data.
+19. Type Check & Casts: Memeriksa tipe objek dan melakukan casting jika diperlukan.
+20. toString Function: Mengembalikan representasi string dari objek.
+21. equals Function: Membandingkan dua objek untuk kesetaraan.
+22. HashCode Function: Menghasilkan nilai hash untuk objek.
+23. Abstract Class: Kelas yang tidak dapat diinstansiasi dan dapat memiliki metode abstrak.
+24. Abstract Properties & Function: Properti dan metode yang harus diimplementasikan oleh subclass.
+25. Getter dan Setter: Metode untuk mengakses dan memodifikasi nilai properti.
+26. Late Initialized Properties: Properti yang diinisialisasi setelah objek dibuat.
+27. Interface: Kontrak yang mendefinisikan metode yang harus diimplementasikan oleh kelas.
 
 
 /// contoh lengkap : 
 
 // 1. Membuat Class
-open class Animal(val name: String) {
-
+abstract class Animal {
     // 3. Membuat Property
-    var age: Int = 0
+    abstract val name: String
 
-    // 5. Constructor
-    init {
-        println("Animal created: $name")
+    // 20. toString Function
+    override fun toString(): String {
+        return "Animal(name='$name')"
     }
 
-    // 10. Function
-    open fun makeSound() {
-        println("Animal sound")
-    }
+    // 23. Abstract Class
+    abstract fun makeSound()
 }
 
-// 7. Secondary Constructor
-class Dog(name: String) : Animal(name) {
-    
-    var breed: String = ""
-
-    // Secondary constructor
-    constructor(name: String, breed: String) : this(name) {
-        this.breed = breed
+// 2. Membuat Object
+class Dog(override val name: String) : Animal() {
+    // 14. Function Overriding
+    override fun makeSound() {
+        println("Woof!")
     }
 
-    // 11. Overloading Function
-    fun makeSound(barkCount: Int) {
-        repeat(barkCount) { println("Woof!") }
+    // 25. Getter dan Setter
+    var age: Int = 0
+        get() = field
+        set(value) {
+            field = value
+        }
+}
+
+// 5. Constructor
+class Cat(override val name: String, var color: String) : Animal() {
+    // 6. Initializer Block
+    init {
+        println("$name is a $color cat.")
     }
 
     // 14. Function Overriding
     override fun makeSound() {
-        println("Bark!")
+        println("Meow!")
     }
 }
 
-// 2. Membuat Object
-fun main() {
-    // 8. Tanpa primary constructor (kurang disarankan)
-    val cat = Animal("Cat").apply {
-        age = 3
+// 9. Properties di Constructor
+class Bird(private val species: String) : Animal() {
+    override val name: String
+        get() = species
+
+    // 14. Function Overriding
+    override fun makeSound() {
+        println("Chirp!")
     }
-
-    // 6. Initializer Block
-    val dog = Dog("Buddy", "Golden Retriever").apply {
-        age = 5
-    }
-
-    // 4. Memanipulasi Property
-    println("${dog.name} is a ${dog.breed} and is ${dog.age} years old.")
-
-    // 12. This Keyword
-    dog.makeSound() // Calls the overridden method
-    dog.makeSound(3) // Calls the overloaded method
 }
-fun main() {
-    val myAddress = Address("123 Main St", "Springfield")
-    myAddress.display()
 
-    val anotherAddress = Address("456 Elm St")
-    anotherAddress.display()
+// 13. Inheritance
+class Bulldog(name: String, var weight: Int) : Dog(name) {
+    // 15. Properties Overriding
+    override var age: Int
+        get() = super.age
+        set(value) {
+            super.age = value
+        }
+
+    // 16. Super Keyword
+    fun printInfo() {
+        println("Bulldog: $name, Weight: $weight kg, Age: $age years")
+    }
+}
+
+// 19. Type Check & Casts
+fun printAnimalSound(animal: Animal) {
+    when (animal) {
+        is Dog -> animal.makeSound()
+        is Cat -> animal.makeSound()
+        is Bird -> animal.makeSound()
+    }
+}
+
+// 24. Abstract Properties & Function
+interface CanFly {
+    fun fly()
+}
+
+class Sparrow : Bird("Sparrow"), CanFly {
+    override fun fly() {
+        println("$name is flying!")
+    }
+}
+
+// 27. Interface
+fun main() {
+    // 2. Membuat Object
+    val dog = Dog("Buddy")
+    dog.age = 3
+    dog.makeSound()
+    println(dog)
+
+    val cat = Cat("Whiskers", "black")
+    cat.makeSound()
+
+    val bird = Sparrow()
+    bird.fly()
+
+    // 18. Any Class
+    val animals: List<Animal> = listOf(dog, cat, bird)
+    for (animal in animals) {
+        printAnimalSound(animal)
+    }
+
+    // 10. Function
+    val bulldog = Bulldog("Max", 25)
+    bulldog.age = 5
+    bulldog.printInfo()
 }
